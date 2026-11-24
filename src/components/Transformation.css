@@ -1,0 +1,234 @@
+/* Desktop: copy + steps on the left, slider on the right.
+   Phones:  copy → slider → steps, so the slider sits right under
+            "Drag the handle…" instead of a screen further down. */
+.tf__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+  grid-template-areas:
+    'intro slider'
+    'steps slider';
+  grid-template-rows: auto 1fr;
+  column-gap: clamp(56px, 8vw, 140px);
+  row-gap: 30px;
+  align-items: start;
+}
+
+.tf__intro {
+  grid-area: intro;
+  display: grid;
+  gap: 26px;
+  justify-items: start;
+}
+
+.tf__title {
+  margin-top: 4px;
+}
+
+.tf__steps {
+  grid-area: steps;
+  list-style: none;
+  width: 100%;
+  border-top: 1px solid var(--line-light);
+}
+
+.tf__step {
+  display: grid;
+  grid-template-columns: 54px 1fr;
+  gap: 16px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--line-light);
+}
+
+.tf__step-no {
+  padding-top: 4px;
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  color: var(--gold);
+}
+
+.tf__step-body {
+  display: grid;
+  gap: 2px;
+}
+
+.tf__step-title {
+  font-family: var(--font-display);
+  font-size: 1.7rem;
+  line-height: 1.1;
+}
+
+.tf__step-text {
+  font-size: 0.95rem;
+  color: var(--muted-light);
+}
+
+/* ---------- slider ---------- */
+
+.tf__slider-wrap {
+  grid-area: slider;
+  align-self: center;
+  justify-self: end;
+  width: 100%;
+  max-width: 540px;
+}
+
+.tf__slider {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 555 / 760;
+  border-radius: 26px;
+  overflow: hidden;
+  isolation: isolate; /* keeps the rounded clip reliable in Safari */
+  background: var(--ink-3);
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  touch-action: pan-y;
+  cursor: ew-resize;
+  box-shadow:
+    0 0 0 1px rgba(201, 163, 92, 0.25),
+    0 60px 100px -40px rgba(0, 0, 0, 0.8);
+}
+
+.tf__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background-size: cover;
+  pointer-events: none;
+}
+
+/* the "after" photo: an overflow mask slid right, with the photo slid back
+   by the same amount so it stays still while the edge moves */
+.tf__after,
+.tf__after-inner {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+
+.tf__after {
+  overflow: hidden;
+}
+
+.tf__tag {
+  position: absolute;
+  top: 18px;
+  z-index: 2;
+  padding: 8px 12px;
+  border-radius: 2px;
+  background: rgba(12, 10, 8, 0.72);
+  font-size: 0.62rem;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+.tf__tag--l {
+  left: 18px;
+}
+
+.tf__tag--r {
+  right: 18px;
+  color: var(--ink);
+  background: rgba(246, 231, 196, 0.85);
+}
+
+.tf__divider {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.tf__handle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 2px;
+  translate: -50% 0;
+  background: linear-gradient(180deg, transparent, var(--gold-light) 12%, var(--gold-light) 88%, transparent);
+  pointer-events: auto;
+}
+
+.tf__handle:focus-visible {
+  outline: none;
+}
+
+.tf__handle:focus-visible .tf__knob {
+  box-shadow:
+    0 0 0 3px var(--ink),
+    0 0 0 4px var(--gold);
+}
+
+.tf__knob {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  width: max-content;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 8px 10px;
+  border-radius: 999px;
+  background: rgba(12, 10, 8, 0.92);
+  border: 1px solid rgba(201, 163, 92, 0.55);
+  color: var(--gold-light);
+  box-shadow: 0 16px 30px -12px rgba(0, 0, 0, 0.7);
+  transition: transform 0.4s var(--ease-out);
+}
+
+.tf__slider:active .tf__knob {
+  transform: scale(0.94);
+}
+
+.tf__knob svg {
+  flex: none;
+}
+
+.tf__knob svg:not(.mono) {
+  width: 16px;
+  height: 16px;
+}
+
+.tf__hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+  font-size: 0.66rem;
+  font-weight: 400;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--muted-light);
+}
+
+.tf__hint svg {
+  width: 14px;
+  height: 14px;
+  color: var(--gold);
+}
+
+@media (max-width: 900px) {
+  .tf__grid {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'intro'
+      'slider'
+      'steps';
+    grid-template-rows: auto;
+    row-gap: 40px;
+  }
+
+  .tf__slider-wrap {
+    justify-self: center;
+  }
+}

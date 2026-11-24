@@ -1,0 +1,131 @@
+.mmenu {
+  position: fixed;
+  inset: 0;
+  z-index: 110;
+  color: var(--text-light);
+}
+
+.mmenu__slats {
+  position: absolute;
+  inset: 0;
+  display: flex;
+}
+
+.mmenu__slat {
+  flex: 1 1 0;
+  margin-right: -1px;
+  background: var(--ink);
+  border-right: 1px solid rgba(201, 163, 92, 0.08);
+}
+
+.mmenu__content {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 18px var(--pad-x) 32px;
+  overflow-y: auto;
+}
+
+.mmenu__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mmenu__close {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-right: -10px; /* lines up the cross with the page gutter */
+  transition: color 0.3s ease;
+}
+
+.mmenu__close svg {
+  width: 22px;
+  height: 22px;
+}
+
+.mmenu__close:hover {
+  color: var(--gold-light);
+}
+
+.mmenu__links {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  padding: 40px 0;
+}
+
+.mmenu__mask {
+  overflow: hidden;
+  padding-bottom: 0.08em;
+}
+
+.mmenu__link {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 16px;
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(2.8rem, 11vw, 4.6rem);
+  line-height: 1.08;
+  transition: color 0.3s;
+}
+
+.mmenu__link:hover,
+.mmenu__link.is-active {
+  color: var(--gold-light);
+  font-style: italic;
+}
+
+.mmenu__no {
+  padding-top: 0.9em;
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+}
+
+.mmenu__foot {
+  display: grid;
+  gap: 10px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line-light);
+  font-size: 0.85rem;
+  color: var(--muted-light);
+}
+
+.mmenu__call {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  color: var(--gold-light);
+}
+
+.mmenu__call svg {
+  width: 22px;
+  height: 22px;
+}
+
+.mmenu__addr {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mmenu__addr svg {
+  width: 15px;
+  height: 15px;
+}
+
+.mmenu__hours {
+  font-size: 0.72rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}

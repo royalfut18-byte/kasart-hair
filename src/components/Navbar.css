@@ -1,0 +1,167 @@
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
+/* Solid bar that fades in once the page scrolls. Only its opacity changes:
+   no size or layout changes while scrolling. */
+.nav::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(12, 10, 8, 0.97);
+  border-bottom: 1px solid var(--line-light);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.nav--scrolled::before {
+  opacity: 1;
+}
+
+.nav__inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  max-width: 1480px;
+  height: 78px;
+  margin: 0 auto;
+  padding: 0 var(--pad-x);
+}
+
+.nav__brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: none;
+}
+
+.nav__wordmark {
+  font-family: var(--font-brand);
+  font-size: 0.9rem;
+  font-weight: 400;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--text-light);
+}
+
+.nav__links {
+  display: flex;
+  gap: 4px;
+}
+
+.nav__link {
+  padding: 10px 16px;
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted-light);
+  transition: color 0.3s ease;
+}
+
+.nav__link:hover {
+  color: var(--text-light);
+}
+
+.nav__link.is-active {
+  color: var(--gold-light);
+}
+
+.nav__actions {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex: none;
+}
+
+.nav__phone {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: var(--muted-light);
+  transition: color 0.3s ease;
+}
+
+.nav__phone svg {
+  width: 15px;
+  height: 15px;
+  color: var(--gold);
+}
+
+.nav__phone:hover {
+  color: var(--gold-light);
+}
+
+.nav__burger {
+  display: none;
+  position: relative;
+  width: 44px;
+  height: 44px;
+  margin-right: -10px; /* lines up the bars with the page gutter */
+}
+
+.nav__burger span {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  height: 1px;
+  background: var(--text-light);
+  transition: transform 0.4s var(--ease-out);
+}
+
+.nav__burger span:first-child {
+  top: 18px;
+}
+
+.nav__burger span:last-child {
+  top: 25px;
+  left: 17px;
+}
+
+@media (hover: hover) {
+  .nav__burger:hover span:last-child {
+    transform: translateX(-7px);
+  }
+}
+
+@media (max-width: 1220px) {
+  .nav__phone {
+    display: none;
+  }
+}
+
+@media (max-width: 1000px) {
+  .nav__links {
+    display: none;
+  }
+
+  .nav__burger {
+    display: block;
+  }
+}
+
+@media (max-width: 560px) {
+  .nav__inner {
+    height: 66px;
+  }
+
+  .nav__cta {
+    display: none !important;
+  }
+
+  .nav__wordmark {
+    font-size: 0.78rem;
+    letter-spacing: 0.22em;
+  }
+}

@@ -1,0 +1,162 @@
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+  color: var(--text-light);
+}
+
+.lightbox__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 8, 6, 0.95);
+  opacity: 0;
+}
+
+.lightbox__stage {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+
+.lightbox__figure {
+  pointer-events: auto;
+  cursor: grab;
+}
+
+.lightbox__figure:active {
+  cursor: grabbing;
+}
+
+.lightbox__media {
+  width: min(88vw, calc(74vh * var(--ratio)));
+  border-radius: 14px;
+  overflow: hidden;
+  transform-origin: 50% 50%;
+  box-shadow: 0 60px 120px -40px rgba(0, 0, 0, 0.9);
+  will-change: transform;
+}
+
+.lightbox__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background-size: cover;
+}
+
+.lightbox__chrome {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.lightbox__chrome > * {
+  pointer-events: auto;
+}
+
+.lightbox__close {
+  position: absolute;
+  top: clamp(16px, 3vh, 28px);
+  right: var(--pad-x);
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 1px solid var(--line-light);
+  transition:
+    transform 0.6s var(--ease-out),
+    border-color 0.3s;
+}
+
+.lightbox__close:hover {
+  transform: rotate(90deg);
+  border-color: var(--gold);
+}
+
+.lightbox__close svg,
+.lightbox__nav svg {
+  width: 20px;
+  height: 20px;
+}
+
+.lightbox__caption {
+  position: absolute;
+  left: var(--pad-x);
+  bottom: clamp(18px, 3.4vh, 32px);
+  display: grid;
+  gap: 4px;
+}
+
+.lightbox__count {
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.24em;
+  color: var(--gold);
+}
+
+.lightbox__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.4vw, 2.2rem);
+}
+
+.lightbox__title em {
+  font-size: 0.6em;
+  color: var(--muted-light);
+}
+
+.lightbox__nav {
+  position: absolute;
+  top: 50%;
+  translate: 0 -50%;
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  border: 1px solid var(--line-light);
+  background: rgba(12, 10, 8, 0.5);
+  transition:
+    background-color 0.4s,
+    border-color 0.4s,
+    color 0.4s;
+}
+
+.lightbox__nav:hover {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--ink);
+}
+
+.lightbox__nav--prev {
+  left: var(--pad-x);
+}
+
+.lightbox__nav--next {
+  right: var(--pad-x);
+}
+
+@media (max-width: 700px) {
+  .lightbox__media {
+    width: min(92vw, calc(64vh * var(--ratio)));
+  }
+
+  .lightbox__nav {
+    top: auto;
+    bottom: 22px;
+    translate: none;
+    width: 48px;
+    height: 48px;
+  }
+
+  .lightbox__nav--prev {
+    left: auto;
+    right: calc(var(--pad-x) + 58px);
+  }
+
+  .lightbox__caption {
+    right: 130px;
+  }
+}

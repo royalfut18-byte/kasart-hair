@@ -1,0 +1,3 @@
+# The original photos are only needed to regenerate public/images
+# (npm run images). The build doesn't read them, so don't upload them.
+photos

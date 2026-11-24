@@ -1,0 +1,156 @@
+.footer {
+  position: relative;
+  z-index: 2;
+  padding-top: clamp(90px, 11vw, 160px);
+  background: var(--ink);
+  color: var(--text-light);
+  overflow: clip;
+  border-top: 1px solid var(--line-light);
+}
+
+.footer__top {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 32px;
+  padding-bottom: clamp(56px, 7vw, 96px);
+  border-bottom: 1px solid var(--line-light);
+}
+
+.footer__cta {
+  font-size: clamp(2.8rem, 6.4vw, 6.4rem);
+}
+
+.footer__cols {
+  display: grid;
+  grid-template-columns: 1.1fr repeat(4, minmax(0, 1fr));
+  gap: 32px;
+  padding: clamp(48px, 6vw, 80px) 0;
+  font-size: 0.96rem;
+  color: var(--muted-light);
+}
+
+.footer__brand {
+  display: grid;
+  gap: 16px;
+  align-content: start;
+}
+
+.footer__brand p {
+  font-size: 0.68rem;
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+.footer__h {
+  margin-bottom: 14px;
+  font-size: 0.68rem;
+  font-weight: 400;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.footer__link {
+  transition: color 0.3s;
+}
+
+.footer__link:hover {
+  color: var(--gold-light);
+}
+
+.footer__nav {
+  display: grid;
+  gap: 6px;
+}
+
+/* ---------- giant wordmark ---------- */
+
+.footer__word {
+  display: flex;
+  justify-content: center;
+  padding: 0 1vw;
+  font-family: var(--font-brand);
+  font-weight: 400;
+  font-size: 11vw; /* sized so KASART HAIR spans about three-quarters of the screen */
+  line-height: 0.86;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  user-select: none;
+  will-change: transform; /* drifts with scroll */
+}
+
+.footer__char-mask {
+  display: inline-block;
+  overflow: hidden;
+  padding-top: 0.06em;
+}
+
+.footer__char {
+  display: inline-block;
+  background-image: linear-gradient(180deg, #f6e3b4 0%, #d9b877 45%, #a47a36 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.footer__bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding-top: 26px;
+  padding-bottom: 30px;
+  border-top: 1px solid var(--line-light);
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted-light);
+}
+
+.footer__totop {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted-light);
+  transition: color 0.3s;
+}
+
+.footer__totop svg {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.5s var(--ease-out);
+}
+
+.footer__totop:hover {
+  color: var(--gold-light);
+}
+
+.footer__totop:hover svg {
+  transform: translateY(-4px);
+}
+
+@media (max-width: 1000px) {
+  .footer__cols {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .footer__brand {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer__cols {
+    grid-template-columns: 1fr;
+  }
+}

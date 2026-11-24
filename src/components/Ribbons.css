@@ -1,0 +1,84 @@
+.ribbons {
+  position: relative;
+  z-index: 3;
+  height: clamp(190px, 22vw, 320px);
+  background: linear-gradient(180deg, var(--ink) 50%, var(--cream) 50%);
+  overflow: clip;
+}
+
+.ribbon {
+  position: absolute;
+  top: 50%;
+  left: -6%;
+  width: 112%;
+  padding: clamp(12px, 1.4vw, 22px) 0;
+}
+
+.ribbon--gold {
+  z-index: 2;
+  background: var(--gold-grad);
+  color: var(--ink);
+  transform: translateY(-50%) rotate(-3.2deg);
+  box-shadow: 0 30px 60px -28px rgba(0, 0, 0, 0.55);
+}
+
+.ribbon--dark {
+  background: var(--ink-2);
+  color: var(--gold-light);
+  border-top: 1px solid rgba(201, 163, 92, 0.25);
+  border-bottom: 1px solid rgba(201, 163, 92, 0.25);
+  transform: translateY(-50%) rotate(2.6deg);
+}
+
+.ribbon__marquee {
+  --marquee-gap: 0px;
+  white-space: nowrap;
+}
+
+.ribbon__item {
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(18px, 2vw, 34px);
+  padding-right: clamp(18px, 2vw, 34px);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.7rem, 3.5vw, 3.3rem);
+  line-height: 1.15;
+}
+
+.ribbon--dark .ribbon__item {
+  font-family: var(--font-brand);
+  font-style: normal;
+  font-size: clamp(0.9rem, 1.6vw, 1.45rem);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  padding: 0.35em clamp(18px, 2vw, 34px) 0.35em 0;
+}
+
+.ribbon__star {
+  flex: none;
+  width: 0.48em;
+  height: 0.48em;
+}
+
+.ribbon--dark .ribbon__star {
+  color: var(--gold);
+}
+
+/* On narrow screens the crossing angle is too shallow to show both, so stack them. */
+@media (max-width: 700px) {
+  .ribbons {
+    height: 220px;
+  }
+
+  .ribbon--dark {
+    top: 34%;
+    transform: translateY(-50%) rotate(4deg);
+  }
+
+  .ribbon--gold {
+    top: 64%;
+    transform: translateY(-50%) rotate(-4deg);
+  }
+}

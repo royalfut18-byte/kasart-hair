@@ -1,0 +1,246 @@
+{
+  "balayage-curls": {
+    "w": 1000,
+    "h": 1344,
+    "alt": "Blonde balayage finished in soft, bouncy curls, seen from behind in the salon chair",
+    "srcs": [
+      {
+        "w": 640,
+        "file": "/images/balayage-curls-640.webp"
+      },
+      {
+        "w": 1000,
+        "file": "/images/balayage-curls-1000.webp"
+      }
+    ],
+    "placeholder": "data:image/webp;base64,UklGRpoAAABXRUJQVlA4II4AAABwBQCdASoYACAAPt1eqU4opSQiMBgMARAbiUAToAXzTqpYpImxDbhJ0l8yO3Dkh43oDjWEAP6Jhq3YTX5Xt8ScuRP6QYEG30x2wK8mnRPziP4jbaLNgLvUfPeQYUr7dEr7c+P8Zup3viKa2FeQwxFodeN8cZCayeGnAP1IDEIyBVojZZOY5q6iVC6U7kYA"
+  },
+  "ombre-sleek": {
+    "w": 730,
+    "h": 950,
+    "alt": "Long, glass-smooth hair melting from a soft brown root into bright blonde lengths",
+    "srcs": [
+      {
+        "w": 640,
+        "file": "/images/ombre-sleek-640.webp"
+      },
+      {
+        "w": 730,
+        "file": "/images/ombre-sleek-730.webp"
+      },
+      {
+        "w": 1460,
+        "file": "/images/ombre-sleek-1460.webp"
+      }
+    ],
+    "placeholder": "data:image/webp;base64,UklGRogAAABXRUJQVlA4IHwAAABQBQCdASoYAB8APt1eo0yopSMiMBgMARAbiWMAnQAQ7+OsrjQwQwkvuOVGrZiiGy+3+oAA/t55A1sHKcR7DkDY7iL9g+FyR8lYuSg39kTU7wDKYLg18zTcvdq4Z3ncFSf+JsXZ8bvC0gBWirNJjRlR18KEn6TcjXiUwAAA"
+  },
+  "balayage-side": {
+    "w": 800,
+    "h": 1200,
+    "alt": "Side view of golden blonde balayage curls beside the styling trolley",
+    "srcs": [
+      {
+        "w": 640,
+        "file": "/images/balayage-side-640.webp"
+      },
+      {
+        "w": 800,
+        "file": "/images/balayage-side-800.webp"
+      },
+      {
+        "w": 1600,
+        "file": "/images/balayage-side-1600.webp"
+      }
+    ],
+    "placeholder": "data:image/webp;base64,UklGRqoAAABXRUJQVlA4IJ4AAAAwBgCdASoYACQAPt1kqE4opaOiKqoBEBuJYwCy7XgBj8+rzYH358roeXtNvGLMf2/nhuTqdX05Q4UgAPxgezZJWykWcT+6V7KlWcku++kk3xeudNJZW+H0u2gWH9Kw30yizif3q/BNNCzmDfM+mqP43zFsqGQuOnRC+84g6muJ6xz+bKdn1Ufr7OIxzDAE/y5DPQcHNtCBxIY1ATAAAA=="
+  },
+  "burgundy": {
+    "w": 504,
+    "h": 640,
+    "alt": "Deep burgundy colour with soft waves, with the salon window and fresh flowers behind",
+    "srcs": [
+      {
+        "w": 504,
+        "file": "/images/burgundy-504.webp"
+      },
+      {
+        "w": 1008,
+        "file": "/images/burgundy-1008.webp"
+      }
+    ],
+    "placeholder": "data:image/webp;base64,UklGRpYAAABXRUJQVlA4IIoAAAAQBQCdASoYAB4APtlco0yoJSMiMAwBABsJQBUegpb6i3DAnscGPzjr9hjUt+aDDygAAPcb2XttzA5xM1pxL+on0cFdfzwjyngntug1N4YotvBn2e5Kz6NbI2j1GNcpue4HSB8MSqss4eXonKSDyXARpydaaQqzh7GQvt7Ik6FpEVThz8AUXnvFAAA="
+  },
+  "ash-blonde": {
+    "w": 520,
+    "h": 693,
+    "alt": "Long ash blonde hair with fine, bright foils",
+    "srcs": [
+      {
+        "w": 520,
+        "file": "/images/ash-blonde-520.webp"
+      },
+      {
+        "w": 1040,
+        "file": "/images/ash-blonde-1040.webp"
+      }
+    ],
+    "placeholder": "data:image/webp;base64,UklGRpAAAABXRUJQVlA4IIQAAACwBQCdASoYACAAPt1eqU4opSQiMBgMARAbiWMAxvQ0UG/vj/MGvhO3ZVYWoFMHZDP42zslqAAA/rFftVBHZuqAtpuK43snxsJy/1k7PyPt891ICVV2Y7+/p6GNuUxbT0ovdr59LYJVp2/6R+xt24KxCZjUiJX5Bpp0dS00/LM3Z53AAAA="
+  },
+  "glossy-brunette": {
+    "w": 578,
+    "h": 716,
+    "alt": "Long, sleek, glossy brunette hair seen from behind in the salon",
+    "srcs": [
+      {
+        "w": 578,
+        "file": "/images/glossy-brunette-578.webp"
+      },
+      {
+        "w": 1156,
+        "file": "/images/glossy-brunette-1156.webp"
+      }
+    ],
+    "placeholder": "data:image/webp;base64,UklGRpAAAABXRUJQVlA4IIQAAADwBACdASoYAB4APt1mq1CopSOiqAgBEBuJQBZwAMAwTxeO9I/CjGKn2tvBqDFuD0AA/ExvCgtG5UCUyVSgCWCEkMSuGjtF+G8ORu/LovlJJaNXn11iQLifyDODQHqwKFziV8V2s4EWyyz3znD5m0o4i3LS3jZ0vcahPlFC9e0zBKkgAAA="
+  },
+  "bronde-lob": {
+    "w": 765,
+    "h": 1020,
+    "alt": "Shoulder-length bronde cut with soft highlights, blow-dried under at the ends",
+    "srcs": [
+      {
+        "w": 640,
+        "file": "/images/bronde-lob-640.webp"
+      },
+      {
+        "w": 765,
+        "file": "/images/bronde-lob-765.webp"
+      },
+      {
+        "w": 1530,
+        "file": "/images/bronde-lob-1530.webp"
+      }
+    ],
+    "placeholder": "data:image/webp;base64,UklGRpYAAABXRUJQVlA4IIoAAADQBQCdASoYACAAPt1aqU+opKOiMBgIARAbiUAVhmq5RxilfuARncCOV67S5pO2K8G0vHUPK+IAAP737CbMEmlKxs0KYXH7DsMMYsHIsb1e4rpZzVhnnAnxcewNujMjlpBFJ+3yuGzCR+TNLFill8tKYMFceU6H68nl7gqhmuIOYAjdWZ4lERMAAAA="
+  },
+  "espresso-waves": {
+    "w": 518,
+    "h": 660,
+    "alt": "Long espresso brunette layers finished in loose waves",
+    "srcs": [
+      {
+        "w": 518,
+        "file": "/images/espresso-waves-518.webp"
+      },
+      {
+        "w": 1036,
+        "file": "/images/espresso-waves-1036.webp"
+      }
+    ],
+    "placeholder": "data:image/webp;base64,UklGRpoAAABXRUJQVlA4II4AAABwBQCdASoYAB8APt1epkyopSOiMAgBEBuJZQDLLB3eYzt+RSFxA+kqm/mUDbD/rZppzFCAAPcrTqxsuYTl9NFBFK70Jr0mMyNrjH5DG01l1OnGZohXqgztTZyEavWTAYYZSOxeNRoUleXZ8N1JWK/+eFrTuIUXgm/DdFAyERxzsra8BiRn6nSgklw/ksAA"
+  },
+  "salon-shelves": {
+    "w": 1086,
+    "h": 1448,
+    "alt": "Inside KasArt Hair: shelves of professional hair care, fresh flowers and warm timber floors",
+    "srcs": [
+      {
+        "w": 640,
+        "file": "/images/salon-shelves-640.webp"
+      },
+      {
+        "w": 1086,
+        "file": "/images/salon-shelves-1086.webp"
+      }
+    ],
+    "placeholder": "data:image/webp;base64,UklGRq4AAABXRUJQVlA4IKIAAABQBQCdASoYACAAPtlWpEyoJKOiN/VYAQAbCWQAqPRB0H/iQE8KdsAhNUYuUTRAiZwPhwAA/vHc3vU/NRrO4crzZf5/UnMj7iVdQfnLoZYUXbQZtPH9JoADGZkkPXL3rmohs98Tr3N6tD6HupAOs0k36SsWK2cWOBod3D8ZpHQg43lXhjQRRJCzxHPkUYsNfTJXfklTCImWyIYB2WIK/T7cAAA="
+  },
+  "shopfront": {
+    "w": 1360,
+    "h": 1016,
+    "alt": "The KasArt Hair shopfront on the Pacific Highway in Lindfield",
+    "srcs": [
+      {
+        "w": 640,
+        "file": "/images/shopfront-640.webp"
+      },
+      {
+        "w": 1200,
+        "file": "/images/shopfront-1200.webp"
+      }
+    ],
+    "placeholder": "data:image/webp;base64,UklGRnYAAABXRUJQVlA4IGoAAABwBACdASoYABIAPt1cpUyopSOiMBgMARAbiWUAwcwOuXJPDFsseEvYO8q4AAD0Zkp5z2YpkOi0rZbOU+toBtMlwY7YFIEmJ0aAUlD17e0nKEf4XqviBkHdyubI3WKKziBGT8ckLzV8gAAA"
+  },
+  "finish-sleek": {
+    "w": 547,
+    "h": 750,
+    "alt": "A blonde ombré worn sleek and straight",
+    "srcs": [
+      {
+        "w": 547,
+        "file": "/images/finish-sleek-547.webp"
+      },
+      {
+        "w": 1094,
+        "file": "/images/finish-sleek-1094.webp"
+      }
+    ],
+    "placeholder": "data:image/webp;base64,UklGRnoAAABXRUJQVlA4IG4AAACQBQCdASoYACEAPtVeo0yoJaMiNVgIAQAaiWUAtRvWAf73XQ4FuuyPH7ewe3pzJ1Vzm6jRgAD+1eRvDJlRnLxOTv553h9kmxTPyzYJ0udZPMTnouDWiBtREViLQdeFMqoWxlNL2lRPIEBUlKAUAA=="
+  },
+  "finish-curled": {
+    "w": 707,
+    "h": 968,
+    "alt": "A blonde balayage finished in soft curls",
+    "srcs": [
+      {
+        "w": 640,
+        "file": "/images/finish-curled-640.webp"
+      },
+      {
+        "w": 707,
+        "file": "/images/finish-curled-707.webp"
+      },
+      {
+        "w": 1414,
+        "file": "/images/finish-curled-1414.webp"
+      }
+    ],
+    "placeholder": "data:image/webp;base64,UklGRpoAAABXRUJQVlA4II4AAACwBQCdASoYACEAPtVgpEyoJiOiNVgIAQAaiWUAsR+dANf0zuWfSM9PjAH/gixRkKBEnng7OAAA/tDpYsLbLkzfJDOxygAPZRBunD+wgeYuXWVtFhmSPMaSQaNeF30jng5stzksAeC49dlfBWP2DsuWyHDuMBk2gfj5kQy28LFyDATmJYbJjuOLgCBh8AAA"
+  },
+  "salon-shelves-hq": {
+    "w": 1086,
+    "h": 1448,
+    "alt": "Inside KasArt Hair: shelves of professional hair care, fresh flowers and warm timber floors",
+    "srcs": [
+      {
+        "w": 1086,
+        "file": "/images/salon-shelves-hq.webp"
+      }
+    ],
+    "placeholder": "data:image/webp;base64,UklGRq4AAABXRUJQVlA4IKIAAABQBQCdASoYACAAPtlWpEyoJKOiN/VYAQAbCWQAqPRB0H/iQE8KdsAhNUYuUTRAiZwPhwAA/vHc3vU/NRrO4crzZf5/UnMj7iVdQfnLoZYUXbQZtPH9JoADGZkkPXL3rmohs98Tr3N6tD6HupAOs0k36SsWK2cWOBod3D8ZpHQg43lXhjQRRJCzxHPkUYsNfTJXfklTCImWyIYB2WIK/T7cAAA="
+  },
+  "balayage-side-hq": {
+    "w": 800,
+    "h": 1200,
+    "alt": "Side view of golden blonde balayage curls beside the styling trolley",
+    "srcs": [
+      {
+        "w": 800,
+        "file": "/images/balayage-side-hq.webp"
+      }
+    ],
+    "placeholder": "data:image/webp;base64,UklGRqoAAABXRUJQVlA4IJ4AAAAwBgCdASoYACQAPt1kqE4opaOiKqoBEBuJYwCy7XgBj8+rzYH358roeXtNvGLMf2/nhuTqdX05Q4UgAPxgezZJWykWcT+6V7KlWcku++kk3xeudNJZW+H0u2gWH9Kw30yizif3q/BNNCzmDfM+mqP43zFsqGQuOnRC+84g6muJ6xz+bKdn1Ufr7OIxzDAE/y5DPQcHNtCBxIY1ATAAAA=="
+  },
+  "balayage-curls-hq": {
+    "w": 1000,
+    "h": 1344,
+    "alt": "Blonde balayage finished in soft, bouncy curls, seen from behind in the salon chair",
+    "srcs": [
+      {
+        "w": 1000,
+        "file": "/images/balayage-curls-hq.webp"
+      }
+    ],
+    "placeholder": "data:image/webp;base64,UklGRpoAAABXRUJQVlA4II4AAABwBQCdASoYACAAPt1eqU4opSQiMBgMARAbiUAToAXzTqpYpImxDbhJ0l8yO3Dkh43oDjWEAP6Jhq3YTX5Xt8ScuRP6QYEG30x2wK8mnRPziP4jbaLNgLvUfPeQYUr7dEr7c+P8Zup3viKa2FeQwxFodeN8cZCayeGnAP1IDEIyBVojZZOY5q6iVC6U7kYA"
+  }
+}

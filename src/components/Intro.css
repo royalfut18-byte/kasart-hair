@@ -1,0 +1,504 @@
+/* =========================================================
+   Intro: cinematic title sequence that becomes the homepage
+   Phases (class on .intro): is-boot → is-mark → is-arrive → is-reel → is-exit
+   ========================================================= */
+
+.intro {
+  --ws: min(15vw, 19vh); /* giant letter size */
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  overflow: hidden;
+  color: var(--text-light);
+}
+
+.intro.is-portrait {
+  --ws: min(18vw, 8.5vh);
+}
+
+.intro.is-exit {
+  pointer-events: none;
+}
+
+/* ---------- slatted curtain (behind everything) ---------- */
+
+.intro__slats {
+  position: absolute;
+  inset: 0;
+  display: flex;
+}
+
+.intro__slat {
+  position: relative;
+  flex: 1 1 0;
+  height: 100%;
+  margin-right: -1px;
+  background: var(--ink);
+  transform-origin: var(--o);
+  transition: transform 1.05s var(--ease-in-out) var(--d);
+  will-change: transform;
+}
+
+.intro__slat:nth-child(even) {
+  background: #0f0c09;
+}
+
+.intro.is-exit .intro__slat {
+  transform: scaleY(0);
+}
+
+.intro__slat-line {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(to bottom, transparent, rgba(201, 163, 92, 0.16) 25%, rgba(201, 163, 92, 0.16) 75%, transparent);
+  transform: scaleY(0);
+  transform-origin: 50% 0%;
+  transition: transform 1.4s var(--ease-in-out) var(--ld);
+}
+
+.intro:not(.is-boot) .intro__slat-line {
+  transform: scaleY(1);
+}
+
+/* warm glow behind the monogram while it draws */
+.intro__glow {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(110vw, 900px);
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  pointer-events: none;
+  background: radial-gradient(closest-side, rgba(201, 163, 92, 0.2), rgba(201, 163, 92, 0.05) 55%, transparent);
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+.intro.is-mark .intro__glow {
+  opacity: 1;
+}
+
+/* ---------- the full-screen photo stage ---------- */
+
+.intro__stage {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  z-index: 2;
+  overflow: hidden;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+
+.intro__stage.is-lost {
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.intro__photo {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  transform: translate3d(0, 100%, 0);
+  /* slow, smooth wipe up to the next photo */
+  transition: transform 1s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.intro__photo.is-in {
+  transform: translate3d(0, 0, 0);
+}
+
+/* covered photos stop costing memory */
+.intro__photo.is-gone {
+  visibility: hidden;
+}
+
+.intro__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 30%;
+  background-size: cover;
+  transform: scale(1.08); /* gentle: less enlarging keeps photos sharp */
+}
+
+.intro__photo.is-in img {
+  animation: intro-push 2.2s var(--ease-out) forwards;
+}
+
+/* the portrait is cropped exactly like the hero's, and settles to scale 1 */
+.intro__photo:last-child img {
+  object-position: 50% 22%;
+}
+
+.intro__photo:last-child.is-in img {
+  animation: intro-settle 1.9s var(--ease-out) forwards;
+}
+
+@keyframes intro-push {
+  from {
+    transform: scale(1.08);
+  }
+  to {
+    transform: scale(1.01);
+  }
+}
+
+@keyframes intro-settle {
+  from {
+    transform: scale(1.08);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+/* darkens the photos so the lettering reads; lifts away at the end */
+.intro__dim {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(8, 6, 4, 0.36), rgba(8, 6, 4, 0.2) 45%, rgba(8, 6, 4, 0.4));
+  transition: opacity 0.9s ease;
+}
+
+.intro.is-exit .intro__dim {
+  opacity: 0;
+}
+
+/* same bottom shade as the hero arch, so the hand-off is invisible */
+.intro__shade {
+  position: absolute;
+  inset: 0;
+  z-index: 31;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent 55%, rgba(12, 10, 8, 0.35));
+}
+
+/* ---------- gold light flares ---------- */
+
+.intro__flare {
+  position: absolute;
+  inset: -10% 0;
+  z-index: 3;
+  pointer-events: none;
+  background: linear-gradient(
+    105deg,
+    transparent 36%,
+    rgba(255, 214, 140, 0) 41%,
+    rgba(255, 222, 160, 0.3) 47%,
+    rgba(255, 244, 218, 0.62) 50%,
+    rgba(255, 222, 160, 0.3) 53%,
+    rgba(255, 214, 140, 0) 59%,
+    transparent 64%
+  );
+  transform: translate3d(-115%, 0, 0);
+}
+
+.intro.is-arrive .intro__flare--a,
+.intro.is-reel .intro__flare--a,
+.intro.is-exit .intro__flare--a {
+  animation: intro-flare 1.15s var(--ease-in-out) 0.05s forwards;
+}
+
+.intro.is-last .intro__flare--b {
+  animation: intro-flare 1.3s var(--ease-in-out) 0.2s forwards;
+}
+
+@keyframes intro-flare {
+  from {
+    transform: translate3d(-115%, 0, 0);
+  }
+  to {
+    transform: translate3d(115%, 0, 0);
+  }
+}
+
+/* ---------- giant lettering ---------- */
+
+.intro__words {
+  position: absolute;
+  inset: var(--bar) 0;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  font-family: var(--font-brand);
+  font-weight: 400;
+  font-size: var(--ws);
+  line-height: 1;
+  text-transform: uppercase;
+  transition: transform 1.6s var(--ease-out);
+}
+
+/* final photo: the title settles at the foot of the frame, over the dark
+   cape and chair, so the colour and curls above it stay in full view */
+.intro.is-last .intro__words {
+  transform: translate3d(0, 20vh, 0) scale(0.74);
+  transition-duration: 1.2s;
+}
+
+.intro.is-portrait.is-last .intro__words {
+  transform: translate3d(0, 29vh, 0) scale(0.92);
+}
+
+.intro__word {
+  display: flex;
+  white-space: nowrap;
+}
+
+.intro__l {
+  display: block;
+  overflow: hidden;
+  padding: 0.1em 0.025em 0.04em;
+}
+
+.intro__l-in {
+  position: relative;
+  display: block;
+  transform: translate3d(0, 115%, 0);
+  transition: transform 0.95s var(--ease-out) calc(var(--i) * 50ms);
+}
+
+.intro.is-arrive .intro__l-in,
+.intro.is-reel .intro__l-in {
+  transform: translate3d(0, 0, 0);
+  /* wait for the monogram to clear the centre first */
+  transition-delay: calc(0.42s + var(--i) * 50ms);
+}
+
+/* exit: the letters fly up and out, one after another */
+.intro.is-exit .intro__l-in {
+  transform: translate3d(0, -115%, 0);
+  transition: transform 0.55s cubic-bezier(0.7, 0, 0.84, 0) calc(var(--i) * 28ms);
+}
+
+.intro__l-out {
+  display: block;
+  color: transparent;
+  -webkit-text-stroke: 1.2px rgba(240, 214, 160, 0.9);
+}
+
+.intro__l-wrap {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  will-change: transform;
+}
+
+.intro__l-fill {
+  display: block;
+  background-image: linear-gradient(180deg, #fff3d6 0%, #ecd09a 32%, #c9a35c 64%, #a37a38 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  will-change: transform;
+}
+
+/* ---------- letterbox bars ---------- */
+
+.intro__bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  height: var(--bar);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 0 var(--pad-x);
+  background: var(--ink);
+  transition: transform 0.8s var(--ease-in-out);
+}
+
+.intro__bar--top {
+  top: 0;
+}
+
+.intro__bar--bottom {
+  bottom: 0;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: clamp(14px, 2.6vw, 36px);
+}
+
+/* gold hairline along each bar's inner edge */
+.intro__bar::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201, 163, 92, 0.5), transparent);
+  transform: scaleX(0);
+  transition: transform 1.2s var(--ease-in-out) 0.15s;
+}
+
+.intro__bar--top::after {
+  bottom: 0;
+}
+
+.intro__bar--bottom::after {
+  top: 0;
+}
+
+.intro.is-arrive .intro__bar::after,
+.intro.is-reel .intro__bar::after {
+  transform: scaleX(1);
+}
+
+.intro.is-exit .intro__bar--top {
+  transform: translate3d(0, -101%, 0);
+}
+
+.intro.is-exit .intro__bar--bottom {
+  transform: translate3d(0, 101%, 0);
+}
+
+.intro__tag,
+.intro__skip {
+  font-size: 0.64rem;
+  font-weight: 400;
+  letter-spacing: 0.36em;
+  text-transform: uppercase;
+  color: var(--muted-light);
+}
+
+.intro__skip {
+  padding: 10px 0;
+}
+
+@media (hover: hover) {
+  .intro__skip:hover {
+    color: var(--gold-light);
+  }
+}
+
+.intro__count,
+.intro__progress,
+.intro__cap {
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.intro.is-arrive .intro__bar--bottom > *,
+.intro.is-reel .intro__bar--bottom > * {
+  opacity: 1;
+}
+
+.intro__count {
+  min-width: 3ch;
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3.6vw, 3.2rem);
+  font-weight: 300;
+  line-height: 1;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+.intro__progress {
+  display: block;
+  height: 1px;
+  overflow: hidden;
+  background: rgba(244, 237, 226, 0.12);
+}
+
+.intro__progress span {
+  display: block;
+  height: 100%;
+  background: var(--gold-grad);
+  transform-origin: 0 50%;
+}
+
+.intro__cap {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 12px;
+  min-width: 14em;
+  white-space: nowrap;
+}
+
+.intro__cap-no {
+  font-size: 0.64rem;
+  font-weight: 400;
+  letter-spacing: 0.24em;
+  color: var(--gold);
+  font-variant-numeric: tabular-nums;
+}
+
+.intro__cap-title {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.1rem;
+}
+
+/* ---------- monogram ---------- */
+
+.intro__mark {
+  position: absolute;
+  left: 50%;
+  top: calc(var(--bar) / 2);
+  z-index: 6;
+  width: 150px;
+  height: 150px;
+  margin: -75px 0 0 -75px;
+  pointer-events: none;
+}
+
+.intro__mono {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.intro__mono line,
+.intro__mono text,
+.intro__mono circle {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.intro__mono-letter {
+  font-family: var(--font-brand);
+  font-size: 50px;
+  font-weight: 500;
+}
+
+@media (max-width: 600px) {
+  .intro__tag {
+    display: none;
+  }
+
+  .intro__bar--top {
+    justify-content: flex-end;
+  }
+
+  .intro__bar--bottom {
+    grid-template-columns: auto 1fr;
+    align-content: center;
+    row-gap: 8px;
+  }
+
+  .intro__progress {
+    grid-column: 1 / -1;
+    order: -1;
+  }
+
+  .intro__cap {
+    min-width: 0;
+  }
+
+  .intro__count {
+    font-size: 1.7rem;
+  }
+}

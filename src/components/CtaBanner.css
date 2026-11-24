@@ -1,0 +1,142 @@
+.cta {
+  position: relative;
+  z-index: 1;
+  background: var(--cream);
+  color: var(--text-light);
+  overflow: clip;
+}
+
+/* The dark panel. It grows to fill the screen as it scrolls in, as one GPU
+   layer. Only this background is scaled: the photo and text sit on top,
+   unscaled, so they're always drawn at full sharpness. */
+.cta__bg {
+  position: absolute;
+  inset: 0;
+  border-radius: clamp(22px, 3vw, 44px);
+  background:
+    radial-gradient(34% 50% at 27% 50%, rgba(201, 163, 92, 0.12), transparent 70%),
+    radial-gradient(100% 90% at 28% 50%, #2a1f15 0%, #15100c 46%, var(--ink) 82%);
+  transform-origin: 50% 50%;
+  will-change: transform;
+}
+
+/* ---------- layout ---------- */
+
+.cta__inner {
+  position: relative;
+  max-width: 1600px;
+  min-height: 100vh;
+  min-height: 100svh;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  column-gap: clamp(48px, 7vw, 120px);
+  /* extra side room so nothing pokes past the panel while it's still growing */
+  padding: clamp(64px, 10vh, 110px) calc(var(--pad-x) + clamp(0px, 3vw, 56px));
+}
+
+/* ---------- photo ---------- */
+
+/* About the photo's real size, never stretched: at most ~72% of the screen's
+   height, and never wider than 38% of it. */
+.cta__media {
+  --arch-w: min(53.3vh, 578px, 38vw);
+  width: var(--arch-w);
+}
+
+.cta__arch {
+  position: relative;
+  aspect-ratio: 100 / 135;
+  border-radius: calc(var(--arch-w) / 2) calc(var(--arch-w) / 2) 24px 24px;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--ink-3);
+  box-shadow: 0 50px 100px -40px rgba(0, 0, 0, 0.85);
+}
+
+.cta__photo {
+  position: absolute;
+  inset: 0;
+}
+
+.cta__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 30%;
+  background-size: cover;
+}
+
+/* ---------- copy ---------- */
+
+.cta__content {
+  display: grid;
+  justify-items: start;
+  gap: 26px;
+}
+
+.cta__title {
+  font-size: clamp(3.4rem, 6.6vw, 7.6rem);
+  line-height: 0.9;
+}
+
+.cta__text {
+  max-width: 30em;
+  font-size: 1.05rem;
+  color: rgba(244, 237, 226, 0.82);
+}
+
+.cta__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 40px;
+}
+
+/* ---------- tablets and phones: photo on top, copy centred below ---------- */
+
+@media (max-width: 900px) {
+  .cta__bg {
+    background:
+      radial-gradient(70% 34% at 50% 26%, rgba(201, 163, 92, 0.13), transparent 70%),
+      radial-gradient(120% 70% at 50% 30%, #2a1f15 0%, #15100c 46%, var(--ink) 82%);
+  }
+
+  .cta__inner {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    row-gap: clamp(44px, 7vh, 64px);
+    padding: clamp(64px, 9vh, 96px) var(--pad-x);
+    text-align: center;
+  }
+
+  .cta__media {
+    --arch-w: min(60vw, 340px);
+  }
+
+  .cta__content {
+    justify-items: center;
+  }
+
+  .cta__title {
+    font-size: clamp(3.4rem, 12vw, 6rem);
+  }
+
+  .cta__actions {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 560px) {
+  .cta__actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+    width: 100%;
+  }
+
+  .cta__actions .btn--link {
+    align-self: center;
+  }
+}

@@ -1,0 +1,55 @@
+.marquee {
+  --marquee-gap: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.marquee__track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+/* every copy is identical (gap included), so the loop is seamless */
+.marquee__list {
+  display: flex;
+  flex: none;
+  align-items: stretch;
+  gap: var(--marquee-gap);
+  padding-right: var(--marquee-gap);
+}
+
+/* Soft fade at both edges: two still gradients in the section's own colour
+   (set --fade-bg) laid over the row. Far cheaper than a mask, which would
+   have to be re-applied to the moving row on every frame. */
+.marquee--fade::before,
+.marquee--fade::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  width: 6%;
+  pointer-events: none;
+}
+
+.marquee--fade::before {
+  left: 0;
+  background: linear-gradient(90deg, var(--fade-bg, var(--ink)), transparent);
+}
+
+.marquee--fade::after {
+  right: 0;
+  background: linear-gradient(270deg, var(--fade-bg, var(--ink)), transparent);
+}
+
+@media (max-width: 700px) {
+  .marquee {
+    --marquee-gap: 14px;
+  }
+
+  .marquee--fade::before,
+  .marquee--fade::after {
+    width: 4%;
+  }
+}

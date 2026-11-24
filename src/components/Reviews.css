@@ -1,0 +1,220 @@
+.rv {
+  background:
+    radial-gradient(70% 60% at 15% 85%, rgba(201, 163, 92, 0.12), transparent 60%),
+    var(--ink);
+}
+
+.rv__head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 32px;
+  margin-bottom: clamp(44px, 6vw, 80px);
+}
+
+.rv__title {
+  margin-top: 22px;
+}
+
+/* ---------- Google rating badge ---------- */
+
+.rv__badge {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 16px 22px 16px 16px;
+  border-radius: 20px;
+  background: var(--ink-2);
+  border: 1px solid var(--line-light);
+  transition:
+    border-color 0.4s,
+    transform 0.5s var(--ease-out);
+}
+
+@media (hover: hover) {
+  .rv__badge:hover {
+    border-color: rgba(201, 163, 92, 0.55);
+    transform: translateY(-3px);
+  }
+
+  .rv__badge:hover .rv__badge-arrow {
+    transform: translate(3px, -3px);
+    color: var(--gold-light);
+  }
+}
+
+.rv__badge-g {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 8px 24px -10px rgba(0, 0, 0, 0.6);
+}
+
+.rv__badge-body {
+  display: grid;
+  gap: 4px;
+}
+
+.rv__badge-label {
+  font-size: 0.66rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-light);
+}
+
+.rv__badge-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.rv__badge-score {
+  font-family: var(--font-display);
+  font-size: 2.6rem;
+  font-weight: 400;
+  line-height: 1;
+  color: var(--gold-light);
+  font-variant-numeric: lining-nums;
+}
+
+.rv__badge-count {
+  font-size: 0.8rem;
+  color: var(--muted-light);
+}
+
+.rv__badge-arrow {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin-left: 6px;
+  color: var(--muted-light);
+  transition:
+    transform 0.5s var(--ease-out),
+    color 0.3s;
+}
+
+.rv__stars {
+  position: relative;
+  display: inline-flex;
+}
+
+.rv__stars-base,
+.rv__stars-fill {
+  display: flex;
+  gap: 3px;
+}
+
+.rv__stars-base {
+  color: rgba(244, 237, 226, 0.16);
+}
+
+.rv__stars-fill {
+  position: absolute;
+  inset: 0;
+  color: #fbbc05; /* Google's star yellow */
+}
+
+.rv__stars svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ---------- review cards ---------- */
+
+.rv__marquee {
+  --fade-bg: var(--ink);
+  padding: 6px 0 30px;
+  margin-bottom: -30px;
+}
+
+.rcard {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 380px;
+  padding: 26px 28px 30px;
+  border-radius: 22px;
+  background: #17120e;
+  border: 1px solid var(--line-light);
+  box-shadow: 0 30px 60px -40px rgba(0, 0, 0, 0.8);
+}
+
+.rcard__top {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.rcard__avatar {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--gold-grad);
+  color: var(--ink);
+  font-family: var(--font-brand);
+  font-size: 0.82rem;
+}
+
+.rcard__who {
+  display: grid;
+  gap: 1px;
+  min-width: 0;
+}
+
+.rcard__name {
+  font-size: 0.98rem;
+  font-weight: 400;
+  color: var(--text-light);
+}
+
+.rcard__src {
+  font-size: 0.62rem;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted-light);
+}
+
+.rcard__g {
+  flex: none;
+  margin-left: auto;
+}
+
+.rcard__quote {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.22rem;
+  line-height: 1.45;
+  color: rgba(244, 237, 226, 0.9);
+  text-wrap: pretty;
+}
+
+@media (max-width: 700px) {
+  .rcard {
+    width: min(82vw, 330px);
+    padding: 22px 22px 26px;
+  }
+
+  .rcard__quote {
+    font-size: 1.12rem;
+  }
+
+  .rv__badge {
+    width: 100%;
+  }
+
+  .rv__badge-arrow {
+    margin-left: auto;
+  }
+}

@@ -1,0 +1,414 @@
+/* =========================================================
+   KasArt Hair: design tokens & base styles
+   ========================================================= */
+
+:root {
+  --ink: #0c0a08;
+  --ink-2: #15110d;
+  --ink-3: #1e1813;
+  --cream: #f5efe6;
+  --cream-2: #ebe2d4;
+  --paper: #faf6ef;
+  --sand: #d8c6aa;
+
+  --gold: #c9a35c;
+  --gold-light: #ead2a0;
+  --gold-pale: #f6e7c4;
+  --gold-deep: #9a7434;
+
+  --text-dark: #1b1611;
+  --muted-dark: rgba(27, 22, 17, 0.66);
+  --text-light: #f4ede2;
+  --muted-light: rgba(244, 237, 226, 0.64);
+  --line-light: rgba(244, 237, 226, 0.14);
+  --line-dark: rgba(27, 22, 17, 0.14);
+
+  --gold-grad: linear-gradient(115deg, #a47a36 0%, #d9b877 22%, #f6e3b4 42%, #c9a35c 62%, #9a7434 82%, #dcbd7f 100%);
+  --gold-flow: linear-gradient(90deg, #b48b45 0%, #e8cf98 18%, #fff3d4 28%, #e8cf98 38%, #b48b45 55%, #c9a35c 75%, #b48b45 100%);
+
+  --font-display: 'Cormorant Garamond', 'Times New Roman', serif;
+  --font-brand: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif;
+  --font-body: 'Jost', 'Segoe UI', system-ui, sans-serif;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
+
+  /* side gutter, never smaller than a notched phone's safe area in landscape */
+  --pad-x: max(clamp(20px, 5vw, 80px), env(safe-area-inset-left, 0px), env(safe-area-inset-right, 0px));
+  --section-y: clamp(96px, 13vw, 190px);
+  --radius: 22px;
+  --sheet-radius: clamp(28px, 4vw, 56px);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  background: var(--ink);
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+  scrollbar-gutter: stable;
+  overflow-x: clip;
+}
+
+body {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--text-light);
+  background: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+ul {
+  list-style: none;
+}
+
+::selection {
+  background: var(--gold);
+  color: var(--ink);
+}
+
+:focus-visible {
+  outline: 1px solid var(--gold);
+  outline-offset: 4px;
+}
+
+html.is-locked {
+  overflow: hidden;
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* =========================================================
+   Layout helpers
+   ========================================================= */
+
+.container {
+  width: 100%;
+  max-width: 1480px;
+  margin: 0 auto;
+  padding: 0 var(--pad-x);
+}
+
+.section {
+  position: relative;
+  padding: var(--section-y) 0;
+}
+
+.section--light {
+  background: var(--cream);
+  color: var(--text-dark);
+}
+
+.section--dark {
+  background: var(--ink);
+  color: var(--text-light);
+}
+
+/* A section that slides over the previous one like a sheet of paper. */
+.sheet {
+  position: relative;
+  z-index: 2;
+  margin-top: calc(var(--sheet-radius) * -1);
+  border-radius: var(--sheet-radius) var(--sheet-radius) 0 0;
+}
+
+/* Extra room at the bottom of a section that the next sheet overlaps. */
+.before-sheet {
+  padding-bottom: calc(var(--section-y) + var(--sheet-radius));
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* =========================================================
+   Typography
+   ========================================================= */
+
+.eyebrow {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.section--light .eyebrow {
+  color: var(--gold-deep);
+}
+
+.display {
+  font-family: var(--font-display);
+  font-weight: 300;
+  line-height: 0.98;
+  letter-spacing: -0.015em;
+}
+
+.title-xl {
+  font-size: clamp(3rem, 7.4vw, 7.6rem);
+}
+
+.title-lg {
+  font-size: clamp(2.6rem, 5.6vw, 5.6rem);
+}
+
+.title-md {
+  font-size: clamp(2.2rem, 4vw, 3.8rem);
+}
+
+.lead {
+  font-size: clamp(1.02rem, 1.2vw, 1.15rem);
+  line-height: 1.75;
+  max-width: 34em;
+}
+
+.section--dark .lead,
+.muted-light {
+  color: var(--muted-light);
+}
+
+.section--light .lead,
+.muted-dark {
+  color: var(--muted-dark);
+}
+
+/* Gold italic emphasis. Deliberately static: an endlessly animated
+   background on text forces a repaint every frame and was a big source of lag. */
+.em-gold {
+  font-style: italic;
+  background-image: linear-gradient(100deg, #b48b45 0%, #e8cf98 30%, #fff3d4 46%, #e2c48a 60%, #b48b45 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  padding-right: 0.06em;
+  margin-right: -0.06em;
+}
+
+.section--light .em-gold {
+  background-image: linear-gradient(100deg, #8a6528 0%, #b88d45 35%, #d4ae6a 52%, #a47a36 70%, #8a6528 100%);
+}
+
+/* Masked word reveal (SplitText) */
+.split-mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding: 0.08em 0.06em 0.14em;
+  margin: -0.08em -0.06em -0.14em;
+}
+
+.split-word {
+  display: inline-block;
+  transform-origin: 0% 100%;
+}
+
+/* =========================================================
+   Buttons, flat and quiet: a solid block for the main action,
+   an underlined text link for the secondary one. No pills,
+   icon circles, magnetic pull or rolling labels.
+   ========================================================= */
+
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 54px;
+  /* uppercase tracking leaves a trailing gap after the last letter; trim it
+     from the right padding so the label sits truly centred */
+  padding: 0 calc(32px - 0.2em) 0 32px;
+  border-radius: 2px;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn--gold {
+  background: var(--gold);
+  color: var(--ink);
+}
+
+.btn--dark {
+  background: var(--ink);
+  color: var(--text-light);
+}
+
+.btn--sm {
+  height: 44px;
+  padding: 0 calc(22px - 0.2em) 0 22px;
+  font-size: 0.66rem;
+}
+
+/* Secondary action: underlined text, same height as a button so the two
+   line up side by side. */
+.btn--link {
+  height: 54px;
+  padding: 0;
+  border-radius: 0;
+  color: inherit;
+}
+
+.btn--link::after,
+.link-line::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0.2em; /* end under the last letter, not its tracking */
+  height: 1px;
+  background: currentColor;
+  opacity: 0.4;
+  transition: opacity 0.3s ease;
+}
+
+.btn--link::after {
+  bottom: 15px;
+}
+
+/* Inline text link with an underline (e.g. "Get directions") */
+.link-line {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 7px;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+}
+
+.link-line::after {
+  bottom: 0;
+}
+
+.link-line svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* Hover only where a real mouse exists, so nothing gets "stuck" in its
+   hover state after a tap on a phone. */
+@media (hover: hover) {
+  .btn--gold:hover {
+    background: var(--gold-light);
+  }
+
+  .btn--dark:hover {
+    background: #2b2219;
+  }
+
+  .btn--link:hover {
+    color: var(--gold-light);
+  }
+
+  .section--light .btn--link:hover {
+    color: var(--gold-deep);
+  }
+
+  .btn--link:hover::after,
+  .link-line:hover::after {
+    opacity: 1;
+  }
+}
+
+/* Opening-hours status dot (static: an endless pulse would restyle the
+   page on every frame) */
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #7fd6a0;
+  flex: none;
+}
+
+.status-dot--closed {
+  background: #d9805f;
+}
+
+/* Parallax image frame */
+.pimg {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--cream-2);
+}
+
+.pimg__inner {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+
+.pimg__inner img,
+.cover-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background-size: cover;
+  background-position: center;
+}
+
