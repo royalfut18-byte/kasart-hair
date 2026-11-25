@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 import { MotionConfig } from 'framer-motion';
 import { IntroContext } from './lib/hooks';
 import { lockScroll } from './lib/lenis';
@@ -16,6 +16,32 @@ import Faq from './components/Faq';
 import CtaBanner from './components/CtaBanner';
 import Visit from './components/Visit';
 import Footer from './components/Footer';
+
+// The page never depends on App's state: only the hero and the navbar follow
+// the intro, through IntroContext. Memoised, so each intro phase change
+// re-renders just those two instead of the whole page, which used to cost
+// a dropped frame or two right in the middle of the intro's final flight.
+const Page = memo(function Page() {
+  return (
+    <>
+      <Navbar />
+      <main>
+        <Hero />
+        <Ribbons />
+        <About />
+        <Services />
+        <Gallery />
+        <Transformation />
+        <Experience />
+        <Reviews />
+        <Faq />
+        <CtaBanner />
+        <Visit />
+      </main>
+      <Footer />
+    </>
+  );
+});
 
 export default function App() {
   // 'playing' → 'revealing' → 'done'
@@ -35,21 +61,7 @@ export default function App() {
     <MotionConfig reducedMotion="never">
       <IntroContext.Provider value={intro}>
         {!finished && <Intro onReveal={reveal} onDone={done} />}
-        <Navbar />
-        <main>
-          <Hero />
-          <Ribbons />
-          <About />
-          <Services />
-          <Gallery />
-          <Transformation />
-          <Experience />
-          <Reviews />
-          <Faq />
-          <CtaBanner />
-          <Visit />
-        </main>
-        <Footer />
+        <Page />
       </IntroContext.Provider>
     </MotionConfig>
   );

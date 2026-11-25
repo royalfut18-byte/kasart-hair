@@ -22,6 +22,11 @@
   text-wrap: pretty;
 }
 
+/* while the words are lighting up, each fades on its own GPU layer */
+.about__statement.is-live > span {
+  will-change: opacity;
+}
+
 .about__grid {
   display: grid;
   grid-template-columns: 1fr 1fr;

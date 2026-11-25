@@ -93,6 +93,13 @@ The intro, hero portrait and closing banner use extra-high-quality `-hq` version
 The site uses the normal mouse cursor and flat buttons (solid for the main action, underlined text for the second). A few rules keep scrolling smooth:
 
 - **Animate only `transform` and `opacity`.** Write them as a plain `transform` string (e.g. `transform: 'translateY(30px)'`), not Framer's `x`/`y`/`scale` shortcuts, so the browser runs them on the GPU. `Reveal` and `SplitText` already do this.
-- **No endless animations.** A spinning, floating or pulsing element makes the browser redo work on every frame, even while the page sits still.
+- **No endless animations driven by JavaScript.** A spinning, floating or pulsing element makes the browser redo work on every frame, even while the page sits still. The moving rows and the slider's "drag me" sweep are endless, so they run as Web Animations on the GPU instead.
 - **No full-screen overlays** (film grain, glows that follow the mouse): the browser has to redraw them over the whole page on every frame.
-- **Lenis runs in Framer Motion's first step** (`src/lib/lenis.js`), so scroll-linked effects always match what's on screen.
+- **Nothing should repaint on every frame of scrolling.** Animating a colour, a shadow or a non-composited element's opacity while scrolling means a repaint per frame, and each repaint also redraws the tilted ribbons and the hero text. (That's why the About paragraph's words fade by opacity on their own GPU layers while they light up.)
+- **Scroll-linked effects go through `src/lib/scroll.js`, not Framer's `useScroll`.**
+  - `useScrollEffects` plays keyframes on the browser's own scroll timeline: on the GPU, in step with the scroll, no JavaScript per frame.
+  - `useScrollProgress` is the JavaScript version (same offsets, same results). It's the fallback where scroll timelines aren't supported, and the tool for effects that need code, like the About paragraph.
+  - Both measure element positions once (again after resizes and page-height changes), where `useScroll` re-measured every effect on every frame.
+- **Lenis runs only while it's gliding** (`src/lib/lenis.js`). The loop starts on wheel input or a programmatic scroll and stops a few frames after the glide ends, so a page sitting still costs nothing. It runs in Framer Motion's first step, so scroll-linked effects always match what's on screen.
+- **No `box-shadow` on clipped elements inside the moving rows.** A shadow on the gallery cards' clipped photo frame made the browser give every card its own GPU layer. The same shadow on the card itself costs nothing extra.
+- **Keep the page out of App's re-renders.** `App` changes state at each intro phase; the page is memoised so only the hero and navbar (which read the intro phase from context) re-render.

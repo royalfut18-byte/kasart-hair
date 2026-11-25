@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { animate, motion, useInView, useMotionValue, useMotionValueEvent, useTransform } from 'framer-motion';
+import { animate, easeInOut, motion, useInView, useMotionValue, useMotionValueEvent, useTransform } from 'framer-motion';
 import { STEPS } from '../data/site';
 import SplitText from './ui/SplitText';
 import Reveal from './ui/Reveal';
@@ -7,6 +7,53 @@ import Img from './ui/Img';
 import Monogram from './ui/Monogram';
 import { ChevronLeft, ChevronRight } from './ui/icons';
 import './Transformation.css';
+
+/* ---------- the self-running "drag me" sweep ----------
+   Divider position (% from the left) goes 50 → 24 → 76 → 50 over 3.4s with
+   an ease-in-out on each leg, then rests at 50 for 1.4s, and repeats. It runs
+   as Web Animations on the GPU: driving it from JavaScript meant work on every
+   frame for as long as the slider was on screen, even with nobody scrolling. */
+const SWEEP = [50, 24, 76, 50];
+const SWEEP_TIMES = [0, 0.32, 0.72, 1];
+const SWEEP_S = 3.4;
+const REST_S = 1.4;
+const PERIOD_S = SWEEP_S + REST_S;
+const EASE = 'cubic-bezier(0.42, 0, 0.58, 1)'; // Framer Motion's easeInOut
+
+/** Divider position `t` seconds into the sweep. */
+function sweepAt(t) {
+  const u = t / SWEEP_S;
+  if (u >= 1) return SWEEP[3];
+  for (let k = 0; k < 3; k++) {
+    if (u <= SWEEP_TIMES[k + 1]) {
+      const local = (u - SWEEP_TIMES[k]) / (SWEEP_TIMES[k + 1] - SWEEP_TIMES[k]);
+      return SWEEP[k] + (SWEEP[k + 1] - SWEEP[k]) * easeInOut(local);
+    }
+  }
+  return SWEEP[3];
+}
+
+const clamp01 = (v) => Math.min(1, Math.max(0, v));
+// The "Sleek" / "Curled" tags fade as the divider nears their edge.
+const leftTagFor = (v) => clamp01((v - 6) / 20);
+const rightTagFor = (v) => clamp01(1 - (v - 74) / 20);
+
+function sweepFrames(sign) {
+  const at = (v) => `translateX(${sign * v}%)`;
+  return [
+    { offset: 0, transform: at(SWEEP[0]), easing: EASE },
+    { offset: (SWEEP_TIMES[1] * SWEEP_S) / PERIOD_S, transform: at(SWEEP[1]), easing: EASE },
+    { offset: (SWEEP_TIMES[2] * SWEEP_S) / PERIOD_S, transform: at(SWEEP[2]), easing: EASE },
+    { offset: SWEEP_S / PERIOD_S, transform: at(SWEEP[3]) },
+    { offset: 1, transform: at(SWEEP[3]) },
+  ];
+}
+
+// The tags' fades follow the divider's eased path, so sample it finely.
+function tagFrames(fn) {
+  const n = 240;
+  return Array.from({ length: n + 1 }, (_, i) => ({ offset: i / n, opacity: fn(sweepAt((i / n) * PERIOD_S)) }));
+}
 
 /**
  * Drag-to-compare: a blonde worn sleek and straight on the left, another
@@ -18,7 +65,12 @@ import './Transformation.css';
 export default function Transformation() {
   const sliderRef = useRef(null);
   const handleRef = useRef(null);
-  const hint = useRef(null);
+  const afterRef = useRef(null);
+  const innerRef = useRef(null);
+  const dividerRef = useRef(null);
+  const leftTagRef = useRef(null);
+  const rightTagRef = useRef(null);
+  const sweep = useRef(null);
   const touched = useRef(false);
   const dragging = useRef(false);
   const touchStart = useRef(null);
@@ -26,8 +78,8 @@ export default function Transformation() {
   const pos = useMotionValue(50); // divider position, % from the left
   const afterX = useTransform(pos, (v) => `${v}%`); // mask and divider slide right…
   const innerX = useTransform(pos, (v) => `${-v}%`); // …photo slides back, so it stays still
-  const leftTagOpacity = useTransform(pos, [6, 26], [0, 1]);
-  const rightTagOpacity = useTransform(pos, [74, 94], [1, 0]);
+  const leftTagOpacity = useTransform(pos, leftTagFor);
+  const rightTagOpacity = useTransform(pos, rightTagFor);
 
   const inView = useInView(sliderRef, { amount: 0.35 });
 
@@ -38,21 +90,40 @@ export default function Transformation() {
   // Gentle back-and-forth sweep whenever it's on screen, until someone
   // touches it, so it's obvious the photo can be dragged.
   useEffect(() => {
-    if (!inView || touched.current) return undefined;
-    const controls = animate(pos, [50, 24, 76, 50], {
-      duration: 3.4,
-      ease: 'easeInOut',
-      times: [0, 0.32, 0.72, 1],
-      repeat: Infinity,
-      repeatDelay: 1.4,
-    });
-    hint.current = controls;
-    return () => controls.stop();
-  }, [inView, pos]);
+    if (touched.current) return;
+    const running = sweep.current;
+    if (!inView) {
+      running?.forEach((a) => a.pause());
+      return;
+    }
+    if (running) {
+      running.forEach((a) => a.play());
+      return;
+    }
+    const timing = { duration: PERIOD_S * 1000, iterations: Infinity, easing: 'linear' };
+    sweep.current = [
+      afterRef.current.animate(sweepFrames(1), timing),
+      dividerRef.current.animate(sweepFrames(1), timing),
+      innerRef.current.animate(sweepFrames(-1), timing),
+      leftTagRef.current.animate(tagFrames(leftTagFor), timing),
+      rightTagRef.current.animate(tagFrames(rightTagFor), timing),
+    ];
+  }, [inView]);
 
+  useEffect(() => () => sweep.current?.forEach((a) => a.cancel()), []);
+
+  // Hand control to the person: stop the sweep exactly where it is.
   const takeOver = () => {
     touched.current = true;
-    hint.current?.stop();
+    const running = sweep.current;
+    if (!running) return;
+    sweep.current = null;
+    const t = ((running[0].currentTime ?? 0) / 1000) % PERIOD_S;
+    running.forEach((a) => {
+      a.commitStyles?.(); // hold the current frame until Framer redraws it
+      a.cancel();
+    });
+    pos.set(sweepAt(t));
   };
 
   const xToPos = (clientX) => {
@@ -147,8 +218,8 @@ export default function Transformation() {
               eager
               alt="Left: a blonde ombré worn sleek and straight"
             />
-            <motion.div className="tf__after" style={{ x: afterX }}>
-              <motion.div className="tf__after-inner" style={{ x: innerX }}>
+            <motion.div ref={afterRef} className="tf__after" style={{ x: afterX }}>
+              <motion.div ref={innerRef} className="tf__after-inner" style={{ x: innerX }}>
                 <Img
                   name="finish-curled"
                   className="tf__img"
@@ -159,16 +230,16 @@ export default function Transformation() {
               </motion.div>
             </motion.div>
 
-            <motion.span className="tf__tag tf__tag--l" style={{ opacity: leftTagOpacity }}>
+            <motion.span ref={leftTagRef} className="tf__tag tf__tag--l" style={{ opacity: leftTagOpacity }}>
               Sleek
             </motion.span>
-            <motion.span className="tf__tag tf__tag--r" style={{ opacity: rightTagOpacity }}>
+            <motion.span ref={rightTagRef} className="tf__tag tf__tag--r" style={{ opacity: rightTagOpacity }}>
               Curled
             </motion.span>
 
             {/* full-size layer slid by the same % as the mask, so the handle
                 moves on the GPU (no layout per frame) */}
-            <motion.div className="tf__divider" style={{ x: afterX }}>
+            <motion.div ref={dividerRef} className="tf__divider" style={{ x: afterX }}>
               <div
                 ref={handleRef}
                 className="tf__handle"

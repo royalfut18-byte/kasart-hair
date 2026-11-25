@@ -35,6 +35,11 @@
   border-radius: 22px;
   text-align: left;
   color: var(--text-light);
+  /* The photo frame's shadow (same box, same corners), drawn from the card.
+     On the clipped frame itself it made the browser give every card in the
+     moving row its own graphics layer: 14 extra layers to update on every
+     frame of scrolling, anywhere on the page. */
+  box-shadow: 0 30px 60px -36px rgba(27, 22, 17, 0.55);
 }
 
 .gcard__media {
@@ -44,7 +49,6 @@
   overflow: hidden;
   border-radius: inherit;
   background: var(--cream-2);
-  box-shadow: 0 30px 60px -36px rgba(27, 22, 17, 0.55);
 }
 
 .gcard__img {

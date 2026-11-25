@@ -1,7 +1,8 @@
 import { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useTransform } from 'framer-motion';
 import { HOURS_PHRASE, SITE } from '../data/site';
 import { EASE_IN_OUT, EASE_OUT } from '../lib/motion';
+import { useScrollEffects, useScrollProgress } from '../lib/scroll';
 import SplitText from './ui/SplitText';
 import Reveal from './ui/Reveal';
 import Img from './ui/Img';
@@ -19,6 +20,9 @@ const ARCH = {
     transition: { duration: 1.4, ease: EASE_IN_OUT },
   },
 };
+const CTA_RANGE = ['start end', 'start start'];
+const BG_FRAMES = [{ transform: 'scale(0.86)' }, { transform: 'scale(1)' }];
+
 const PHOTO = {
   hidden: { transform: 'scale(1.2)' },
   show: {
@@ -39,13 +43,17 @@ const PHOTO = {
  */
 export default function CtaBanner() {
   const ref = useRef(null);
+  const bgRef = useRef(null);
 
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'start start'] });
+  // The panel grows as it scrolls in: on the GPU via the browser's scroll
+  // timeline where supported, otherwise from scroll progress in JavaScript.
+  const onGpu = useScrollEffects(ref, CTA_RANGE, [{ ref: bgRef, keyframes: BG_FRAMES }]);
+  const scrollYProgress = useScrollProgress(ref, CTA_RANGE, !onGpu);
   const scale = useTransform(scrollYProgress, [0, 1], [0.86, 1]);
 
   return (
     <section ref={ref} className="cta" aria-label="Book your appointment">
-      <motion.div className="cta__bg" style={{ scale }} aria-hidden="true" />
+      <motion.div ref={bgRef} className="cta__bg" style={onGpu ? undefined : { scale }} aria-hidden="true" />
 
       <div className="cta__inner">
         <motion.div className="cta__media" initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }}>

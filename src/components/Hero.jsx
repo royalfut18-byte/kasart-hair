@@ -1,7 +1,8 @@
 import { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useTransform } from 'framer-motion';
 import { HOURS_BRIEF, SITE } from '../data/site';
 import { useIntroPhase } from '../lib/hooks';
+import { useScrollEffects, useScrollProgress } from '../lib/scroll';
 import { scrollToTarget } from '../lib/lenis';
 import { EASE_IN_OUT, EASE_OUT } from '../lib/motion';
 import Button from './ui/Button';
@@ -28,6 +29,24 @@ function Line({ ready, delay, className = '', children }) {
   );
 }
 
+// Scroll-out choreography, as the hero scrolls up out of view: the copy
+// rises and fades, the portrait drifts down and zooms in.
+const HERO_RANGE = ['start start', 'end start'];
+const COPY_FRAMES = [{ transform: 'translateY(0%)' }, { transform: 'translateY(-30%)' }];
+// The fade has always played on the browser's own view timeline (Framer
+// Motion hands it over when it can), whose "exit" range for a hero at least
+// a screen tall starts once its bottom edge reaches the bottom of the
+// screen. Same range here, so the copy fades exactly as before: gone 70% of
+// the way through.
+const FADE_RANGE = ['end end', 'end start'];
+const FADE_FRAMES = [
+  { offset: 0, opacity: 1 },
+  { offset: 0.7, opacity: 0 },
+  { offset: 1, opacity: 0 },
+];
+const VISUAL_FRAMES = [{ transform: 'translateY(0%)' }, { transform: 'translateY(18%)' }];
+const IMG_FRAMES = [{ transform: 'scale(1)' }, { transform: 'scale(1.15)' }];
+
 const rise = (ready, delay) => ({
   initial: { opacity: 0, transform: 'translateY(30px)' },
   animate: ready ? { opacity: 1, transform: 'translateY(0px)', ...settle } : undefined,
@@ -41,9 +60,19 @@ export default function Hero() {
   // hero arch stays hidden until it has landed, then swaps in on the same frame.
   const archShown = phase === 'done';
   const ref = useRef(null);
+  const copyRef = useRef(null);
+  const visualRef = useRef(null);
+  const imgRef = useRef(null);
 
-  // Scroll-out choreography
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
+  // Scroll-out choreography: on the GPU via the browser's scroll timeline
+  // where supported, otherwise driven by motion values.
+  const onGpu = useScrollEffects(ref, HERO_RANGE, [
+    { ref: copyRef, keyframes: COPY_FRAMES },
+    { ref: visualRef, keyframes: VISUAL_FRAMES },
+    { ref: imgRef, keyframes: IMG_FRAMES },
+  ]);
+  useScrollEffects(ref, FADE_RANGE, [{ ref: copyRef, keyframes: FADE_FRAMES }]);
+  const scrollYProgress = useScrollProgress(ref, HERO_RANGE, !onGpu);
   const copyY = useTransform(scrollYProgress, [0, 1], ['0%', '-30%']);
   const copyOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
   const visualY = useTransform(scrollYProgress, [0, 1], ['0%', '18%']);
@@ -52,7 +81,7 @@ export default function Hero() {
   return (
     <section id="top" data-nav="top" ref={ref} className="hero">
       <div className="container hero__grid">
-        <motion.div className="hero__copy" style={{ y: copyY, opacity: copyOpacity }}>
+        <motion.div ref={copyRef} className="hero__copy" style={onGpu ? undefined : { y: copyY, opacity: copyOpacity }}>
           <motion.p
             className="eyebrow hero__eyebrow"
             initial={{ opacity: 0, transform: 'translateY(16px)' }}
@@ -103,11 +132,11 @@ export default function Hero() {
           </motion.div>
         </motion.div>
 
-        <motion.div className="hero__visual" style={{ y: visualY }}>
+        <motion.div ref={visualRef} className="hero__visual" style={onGpu ? undefined : { y: visualY }}>
           <div className="hero__arch-wrap">
             {/* Arrives via the intro: its portrait flies in and lands exactly here */}
             <div className="hero__arch" style={{ opacity: archShown ? 1 : 0 }}>
-              <motion.div className="hero__arch-img" style={{ scale: imgScale }}>
+              <motion.div ref={imgRef} className="hero__arch-img" style={onGpu ? undefined : { scale: imgScale }}>
                 <div className="hero__arch-zoom">
                   {/* same high-quality file the intro ends on, so the hand-off is seamless */}
                   <Img name="balayage-curls-hq" sizes={HERO_SIZES} eager />

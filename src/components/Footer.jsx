@@ -1,7 +1,8 @@
 import { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useTransform } from 'framer-motion';
 import { HOURS_LINES, NAV_LINKS, SITE } from '../data/site';
 import { scrollToTarget } from '../lib/lenis';
+import { useScrollEffects, useScrollProgress } from '../lib/scroll';
 import { EASE_OUT } from '../lib/motion';
 import SplitText from './ui/SplitText';
 import Button from './ui/Button';
@@ -10,10 +11,16 @@ import { ArrowUp } from './ui/icons';
 import './Footer.css';
 
 const WORD = 'KASART HAIR';
+const RANGE = ['start end', 'end end'];
+const WORD_FRAMES = [{ transform: 'translateY(-40%)' }, { transform: 'translateY(0%)' }];
 
 export default function Footer() {
   const ref = useRef(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end end'] });
+  const wordRef = useRef(null);
+  // The giant wordmark drifts into place: on the GPU via the browser's scroll
+  // timeline where supported, otherwise from scroll progress in JavaScript.
+  const onGpu = useScrollEffects(ref, RANGE, [{ ref: wordRef, keyframes: WORD_FRAMES }]);
+  const scrollYProgress = useScrollProgress(ref, RANGE, !onGpu);
   const wordY = useTransform(scrollYProgress, [0, 1], ['-40%', '0%']);
 
   const go = (e, id) => {
@@ -90,8 +97,9 @@ export default function Footer() {
       </div>
 
       <motion.div
+        ref={wordRef}
         className="footer__word"
-        style={{ y: wordY }}
+        style={onGpu ? undefined : { y: wordY }}
         aria-hidden="true"
         initial="hidden"
         whileInView="show"

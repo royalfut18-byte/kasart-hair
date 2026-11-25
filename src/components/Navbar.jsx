@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'framer-motion';
+import { AnimatePresence, motion, useMotionValueEvent } from 'framer-motion';
 import { NAV_LINKS, SITE } from '../data/site';
 import { useIntroReady } from '../lib/hooks';
 import { scrollToTarget } from '../lib/lenis';
+import { useScrollY } from '../lib/scroll';
 import { EASE_OUT } from '../lib/motion';
 import Monogram from './ui/Monogram';
 import Button from './ui/Button';
@@ -12,7 +13,7 @@ import './Navbar.css';
 
 export default function Navbar() {
   const ready = useIntroReady();
-  const { scrollY } = useScroll();
+  const scrollY = useScrollY();
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [open, setOpen] = useState(false);
